@@ -74,7 +74,7 @@ dev:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d
 
 prod:
-	@if ls /var/docker/dclm-moodle; then \
+	@if ls /var/docker | grep -q dclm-moodle; then \
 		echo "\033[31mDirectory exists, starting container...\033[0m"; \
 		touch ops/.env.prod; \
 		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
