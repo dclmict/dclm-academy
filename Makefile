@@ -1,5 +1,15 @@
+repo:
+	echo "\033[31mEnter app code folder name:\033[0m ";
+	read -r code; \
+	cd ~/dev/web/dclm/$$code; \
+	git init && git add . && git commit -m "DCLM Academy"; \
+	echo "\033[31mEnter Github repo name :\033[0m ";
+	read -r repo; \
+	gh repo create dclmict/$$repo --public --source=. --remote=origin; \
+	git push --set-upstream origin main
+
 git:
-	@if git status --porcelain | grep '^??'; then \
+	@if git status --porcelain | grep -q '^??'; then \
 		git add .; \
 		echo "\033[31mUntracked files found::\033[0m \033[32mPlease enter commit message:\033[0m"; \
 		read -r msg1; \
