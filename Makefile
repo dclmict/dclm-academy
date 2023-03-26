@@ -11,22 +11,22 @@ git:
 	fi
 
 build:
-	@if docker images | grep -q opeoniye/dclm-events; then \
-		echo "Removing \033[31mopeoniye/dclm-events\033[0m image"; \
+	@if docker images | grep -q opeoniye/dclm-moodle; then \
+		echo "Removing \033[31mopeoniye/dclm-moodle\033[0m image"; \
 		echo y | docker image prune --filter="dangling=true"; \
-		docker image rm opeoniye/dclm-events; \
-		echo "Building \033[31mopeoniye/dclm-events\033[0m image"; \
-		docker build -t opeoniye/dclm-events:latest .; \
-		docker images | grep opeoniye/dclm-events; \
+		docker image rm opeoniye/dclm-moodle; \
+		echo "Building \033[31mopeoniye/dclm-moodle\033[0m image"; \
+		docker build -t opeoniye/dclm-moodle:latest .; \
+		docker images | grep opeoniye/dclm-moodle; \
 	else \
-		echo "Building \033[31mopeoniye/dclm-events\033[0m image"; \
-		docker build -t opeoniye/dclm-events:latest .; \
-		docker images | grep opeoniye/dclm-events; \
+		echo "Building \033[31mopeoniye/dclm-moodle\033[0m image"; \
+		docker build -t opeoniye/dclm-moodle:latest .; \
+		docker images | grep opeoniye/dclm-moodle; \
 	fi
 
 push:
 	cat ops/docker/pin | docker login -u opeoniye --password-stdin
-	docker push opeoniye/dclm-events:latest
+	docker push opeoniye/dclm-moodle:latest
 
 up:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up --detach
@@ -58,10 +58,7 @@ destroy:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env down --volumes
 
 shell:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it events-app bash
-
-composer:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec events-app composer install
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it moodle-app bash
 
 log:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f events-app
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f moodle-app

@@ -6,16 +6,17 @@ services:
     env_file: .env
     # working_dir: /var/www
     ports:
-      - '1012:8443'
+      - '1012:8080'
+      - '4012:8443'
     networks:
-      - bams
+      - dclm
     volumes:
       - ./data/moodle_data:/bitnami/moodle'
       - ./data/moodledata_data:/bitnami/moodledata'
-      - ~/dev/keys/mac/bams.pem:/certs/server.crt
-      - ~/dev/keys/mac/bams-key.pem:/certs/server.key
+      - /etc/letsencrypt/live/dclm.org/fullchain.pem:/certs/server.crt
+      - /etc/letsencrypt/live/dclm.org/privkey.pem:/certs/server.key
 
 networks:
-  bams:
-    name: bams
+  dclm:
+    name: dclm
     external: true
