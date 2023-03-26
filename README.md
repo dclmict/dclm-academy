@@ -9,9 +9,10 @@ App url: [DCLM Academy](https://academy.dclm.org)
 ## How to Run
 ### Docker
 - make sure you have [docker](https://www.docker.com/products/docker-desktop/) and [docker compose](https://docs.docker.com/compose/install/) installed
+- make sure you have a local database setup
 - create a directory: `mkdir -p <directory-name>`
 - create database for moodle
-- run `git clone https://github.com/dclmict/dclm-moodle.git .`
+- run `git clone https://github.com/dclmict/dclm-academy.git .`
 - run `make dev`
 - run `make log`
 
