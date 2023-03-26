@@ -1,0 +1,8 @@
+# files
+setup
+ops/.env.dev
+ops/.env.prod
+ops/docker/pin
+
+# folders
+_

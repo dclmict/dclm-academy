@@ -1,0 +1,20 @@
+version: '2'
+services:
+  moodle:
+    container_name: moodle-app
+    image: docker.io/bitnami/moodle:4.1
+    env_file: .env
+    # working_dir: /var/www
+    ports:
+      - '1012:8080'
+      - '4012:8443'
+    networks:
+      - bams
+    volumes:
+      - ./data/moodle_data:/bitnami/moodle'
+      - ./data/moodledata_data:/bitnami/moodledata'
+
+networks:
+  bams:
+    name: bams
+    external: true
