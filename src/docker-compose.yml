@@ -1,6 +1,6 @@
 version: '2'
 services:
-  moodle:
+  moodle-app:
     container_name: moodle-app
     image: docker.io/bitnami/moodle:4.1
     env_file: .env
