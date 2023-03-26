@@ -117,5 +117,8 @@ destroy:
 shell:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it moodle-app bash
 
+ps:
+	docker compose -f ./src/docker-compose.yml ps
+
 log:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f moodle-app
