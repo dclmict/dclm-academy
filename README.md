@@ -7,13 +7,11 @@ This app is a learning portal (LMS) that makes use of Moodle
 App url: [DCLM Academy](https://academy.dclm.org)
 
 ## How to Run
-### Microservices architecture (Docker)
-- make sure you have [docker compose](https://docs.docker.com/compose/install/) installed
-- make sure [PHP 7.4](https://www.php.net/releases/7_4_0.php) is installed on your server
-- make sure you have [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos) installed
+### Docker
+- make sure you have [docker](https://www.docker.com/products/docker-desktop/) and [docker compose](https://docs.docker.com/compose/install/) installed
 - create a directory: `mkdir -p <directory-name>`
+- create database for moodle
 - run `git clone https://github.com/dclmict/dclm-moodle.git .`
-- create a database for moodle
 - run `make dev`
 - run `make log`
 
