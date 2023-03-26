@@ -1,5 +1,5 @@
 git:
-	@if [ -z "$(git status --porcelain | grep '^??' | cut -d' ' -f1)" ]; then \
+	@if git status --porcelain | grep '^??'; then \
 		git add .; \
 		echo "\033[31mUntracked files found::\033[0m \033[32mPlease enter commit message:\033[0m"; \
 		read -r msg1; \
@@ -23,6 +23,21 @@ git:
 		echo "\033[31mThere are no new files::\033[0m \033[32mPlease enter commit message:\033[0m"; \
 		read -r msg2; \
 		git commit -am "$$msg2"; \
+		read -p "Do you want to push your commit to GitHub? (yes|no): " choice; \
+		case "$$choice" in \
+			yes|Y|y) \
+				echo "\033[32mPushing commit to GitHub...:\033[0m"; \
+				git push; \
+				;; \
+			no|N|n) \
+				echo "\033[32m Nothing to be done. Thank you...:\033[0m"; \
+				exit 0; \
+				;; \
+			*) \
+				echo "\033[32m No choice. Exiting script...:\033[0m"; \
+				exit 1; \
+				;; \
+		esac \
 	fi
 
 build:
