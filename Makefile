@@ -74,17 +74,16 @@ dev:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d
 
 prod:
-	@if [ -d "$(ls /var/docker/dclm-moodle)" ]; then \
+	@if ls /var/docker/dclm-moodle; then \
 		echo "\033[31mDirectory exists, starting container...\033[0m"; \
 		touch ops/.env.prod; \
 		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
 		vim ops/.env.prod; \
 		cp ./ops/.env.prod ./src/.env; \
 		cp ./docker-prod.yml ./src/docker-compose.yml; \
-		docker pull opeoniye/dclm-moodle:latest; \
 		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	else \
-		"\033[31mDirectory not found, setting up proect...\033[0m"; \
+		"\033[31mDirectory not found, setting up project...\033[0m"; \
 		mkdir -p /var/docker/dclm-moodle; \
 		cd /var/docker/dclm-moodle; \
 		git clone https://github.com/dclmict/dclm-moodle.git .; \
@@ -94,7 +93,6 @@ prod:
 		vim ops/.env.prod; \
 		cp ./ops/.env.prod ./src/.env; \
 		cp ./docker-prod.yml ./src/docker-compose.yml; \
-		docker pull opeoniye/dclm-moodle:latest; \
 		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	fi
 
