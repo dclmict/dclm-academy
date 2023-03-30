@@ -10,10 +10,9 @@ repo:
 
 git:
 	@if git status --porcelain | grep -q '^??'; then \
-		git add .; \
 		echo "\033[31mUntracked files found::\033[0m \033[32mPlease enter commit message:\033[0m"; \
 		read -r msg1; \
-		git commit -m "$$msg1"; \
+		git commit -am "$$msg1"; \
 		read -p "Do you want to push your commit to GitHub? (yes|no): " choice; \
 		case "$$choice" in \
 			yes|Y|y) \
@@ -51,22 +50,22 @@ git:
 	fi
 
 build:
-	@if docker images | grep -q opeoniye/dclm-moodle; then \
-		echo "Removing \033[31mopeoniye/dclm-moodle\033[0m image"; \
+	@if docker images | grep -q opeoniye/dclm-academy; then \
+		echo "Removing \033[31mopeoniye/dclm-academy\033[0m image"; \
 		echo y | docker image prune --filter="dangling=true"; \
-		docker image rm opeoniye/dclm-moodle; \
-		echo "Building \033[31mopeoniye/dclm-moodle\033[0m image"; \
-		docker build -t opeoniye/dclm-moodle:latest .; \
-		docker images | grep opeoniye/dclm-moodle; \
+		docker image rm opeoniye/dclm-academy; \
+		echo "Building \033[31mopeoniye/dclm-academy\033[0m image"; \
+		docker build -t opeoniye/dclm-academy:latest .; \
+		docker images | grep opeoniye/dclm-academy; \
 	else \
-		echo "Building \033[31mopeoniye/dclm-moodle\033[0m image"; \
-		docker build -t opeoniye/dclm-moodle:latest .; \
-		docker images | grep opeoniye/dclm-moodle; \
+		echo "Building \033[31mopeoniye/dclm-academy\033[0m image"; \
+		docker build -t opeoniye/dclm-academy:latest .; \
+		docker images | grep opeoniye/dclm-academy; \
 	fi
 
 push:
 	cat ops/docker/pin | docker login -u opeoniye --password-stdin
-	docker push opeoniye/dclm-moodle:latest
+	docker push opeoniye/dclm-academy:latest
 
 dev:
 	cp ./ops/.env.dev ./src/.env
@@ -74,7 +73,7 @@ dev:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d
 
 prod:
-	@if ls /var/docker | grep -q dclm-moodle; then \
+	@if ls /var/docker | grep -q dclm-academy; then \
 		echo "\033[31mDirectory exists, starting container...\033[0m"; \
 		touch ops/.env.prod; \
 		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
@@ -84,9 +83,9 @@ prod:
 		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	else \
 		"\033[31mDirectory not found, setting up project...\033[0m"; \
-		mkdir -p /var/docker/dclm-moodle; \
-		cd /var/docker/dclm-moodle; \
-		git clone https://github.com/dclmict/dclm-moodle.git .; \
+		mkdir -p /var/docker/dclm-academy; \
+		cd /var/docker/dclm-academy; \
+		git clone https://github.com/dclmict/dclm-academy.git .; \
 		sudo chown -R ubuntu:ubuntu .; \
 		touch ops/.env.prod; \
 		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
@@ -115,10 +114,10 @@ destroy:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env down --volumes
 
 shell:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it moodle-app bash
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it academy-app bash
 
 ps:
 	docker compose -f ./src/docker-compose.yml ps
 
 log:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f moodle-app
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f academy-app
