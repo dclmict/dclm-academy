@@ -12,7 +12,8 @@ git:
 	@if git status --porcelain | grep -q '^??'; then \
 		echo "\033[31mUntracked files found::\033[0m \033[32mPlease enter commit message:\033[0m"; \
 		read -r msg1; \
-		git commit -am "$$msg1"; \
+		git add -A; \
+		git commit -m "$$msg1"; \
 		read -p "Do you want to push your commit to GitHub? (yes|no): " choice; \
 		case "$$choice" in \
 			yes|Y|y) \
