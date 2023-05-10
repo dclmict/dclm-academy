@@ -79,18 +79,17 @@ dev:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d
 
 prod:
-	@if ls /var/docker | grep -q dclm-academy; then \
+	@if [ -d .git ]; then \
 		echo "\033[31mDirectory exists, starting container...\033[0m"; \
 		touch ops/.env.prod; \
 		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
 		vim ops/.env.prod; \
 		cp ./ops/.env.prod ./src/.env; \
 		cp ./docker-prod.yml ./src/docker-compose.yml; \
+		docker pull $(DIN):$(DIV); \
 		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	else \
-		"\033[31mDirectory not found, setting up project...\033[0m"; \
-		mkdir -p /var/docker/dclm-academy; \
-		cd /var/docker/dclm-academy; \
+		echo "\033[31mDirectory not found, setting up project...\033[0m"; \
 		git clone https://github.com/dclmict/dclm-academy.git .; \
 		sudo chown -R ubuntu:ubuntu .; \
 		touch ops/.env.prod; \
@@ -98,6 +97,7 @@ prod:
 		vim ops/.env.prod; \
 		cp ./ops/.env.prod ./src/.env; \
 		cp ./docker-prod.yml ./src/docker-compose.yml; \
+		docker pull $(DIN):$(DIV); \
 		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	fi
 
