@@ -1,8 +1,8 @@
 version: '2'
 services:
   moodle-app:
-    container_name: moodle-app
-    image: docker.io/bitnami/moodle:4.1
+    container_name: ${CN}
+    image: ${DIN}:${DIV}
     env_file: .env
     # working_dir: /var/www
     ports:
@@ -10,8 +10,8 @@ services:
     networks:
       - dclm
     volumes:
-      - ./data/moodle_data:/bitnami/moodle'
-      - ./data/moodledata_data:/bitnami/moodledata'
+      - ./data/moodle_data:/bitnami/moodle
+      - ./data/moodledata_data:/bitnami/moodledata
       - /etc/letsencrypt/live/dclm.org/fullchain.pem:/certs/server.crt
       - /etc/letsencrypt/live/dclm.org/privkey.pem:/certs/server.key
 

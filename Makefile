@@ -1,3 +1,8 @@
+# https://makefiletutorial.com/
+
+# load .env file
+include ./src/.env
+
 repo:
 	echo "\033[31mEnter app code folder name:\033[0m ";
 	read -r code; \
@@ -115,10 +120,10 @@ destroy:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env down --volumes
 
 shell:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it academy-app bash
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env exec -it $(CN) bash
 
 ps:
 	docker compose -f ./src/docker-compose.yml ps
 
 log:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f academy-app
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f $(CN)
