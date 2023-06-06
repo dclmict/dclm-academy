@@ -1,6 +1,6 @@
 version: '2'
 services:
-  moodle-app:
+  academy-app:
     container_name: ${CN}
     image: ${DIN}:${DIV}
     env_file: .env
