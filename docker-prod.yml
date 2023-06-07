@@ -14,6 +14,7 @@ services:
       - ./data/moodledata_data:/bitnami/moodledata
       - /etc/letsencrypt/live/dclm.org/fullchain.pem:/certs/server.crt
       - /etc/letsencrypt/live/dclm.org/privkey.pem:/certs/server.key
+    restart: always
 
 networks:
   dclm:

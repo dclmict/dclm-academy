@@ -76,6 +76,7 @@ push:
 dev:
 	cp ./ops/.env.dev ./src/.env
 	cp ./docker-dev.yml ./src/docker-compose.yml
+	docker pull $(DIN):$(DIV)
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d
 
 prod:
