@@ -3,6 +3,10 @@ setup
 ops/.env.dev
 ops/.env.prod
 ops/docker/pin
+/src/.env
+/src/docker-compose.yml
+
 
 # folders
 _
+/src/data

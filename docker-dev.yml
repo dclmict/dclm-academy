@@ -4,16 +4,15 @@ services:
     container_name: ${CN}
     image: ${DIN}:${DIV}
     env_file: .env
-    # working_dir: /var/www
     ports:
-      - '1012:8443'
+      - '1012:80'
     networks:
       - bams
-    volumes:
-      - ./data/moodle_data:/bitnami/moodle
-      - ./data/moodledata_data:/bitnami/moodledata
-      - ~/dev/keys/mac/bams.pem:/certs/server.crt
-      - ~/dev/keys/mac/bams-key.pem:/certs/server.key
+    # volumes:
+    #   - ./data/moodle_data:/bitnami/moodle
+    #   - ./data/moodledata_data:/bitnami/moodledata
+    #   - ~/dev/keys/mac/bams.pem:/certs/server.crt
+    #   - ~/dev/keys/mac/bams-key.pem:/certs/server.key
     restart: always
 
 networks:
