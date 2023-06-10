@@ -5,14 +5,15 @@ services:
     image: ${DIN}:${DIV}
     env_file: .env
     ports:
-      - '1012:80'
+      - '1012:1012'
     networks:
       - bams
-    # volumes:
-    #   - ./data/moodle_data:/bitnami/moodle
-    #   - ./data/moodledata_data:/bitnami/moodledata
-    #   - ~/dev/keys/mac/bams.pem:/certs/server.crt
-    #   - ~/dev/keys/mac/bams-key.pem:/certs/server.key
+    volumes:
+      - ./app:/var/www
+      - ./data:/var/data
+      - ../ops/docker/ngx/academy.conf:/etc/nginx/sites-enabled/default
+      - ~/dev/keys/mac/bams.pem:/var/ssl/cert.pem
+      - ~/dev/keys/mac/bams-key.pem:/var/ssl/key.pem
     restart: always
 
 networks:

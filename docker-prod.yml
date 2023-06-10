@@ -4,14 +4,14 @@ services:
     container_name: ${CN}
     image: ${DIN}:${DIV}
     env_file: .env
-    # working_dir: /var/www
+    working_dir: /var/www
     ports:
-      - '1012:8443'
+      - '1012:1012'
     networks:
       - dclm
     volumes:
-      - ./data/moodle_data:/bitnami/moodle
-      - ./data/moodledata_data:/bitnami/moodledata
+      - ./app:/var/www
+      - ./data:/var/data
       - /etc/letsencrypt/live/dclm.org/fullchain.pem:/certs/server.crt
       - /etc/letsencrypt/live/dclm.org/privkey.pem:/certs/server.key
     restart: always

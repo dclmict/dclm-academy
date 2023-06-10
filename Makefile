@@ -1,10 +1,25 @@
 # https://makefiletutorial.com/
 
+# copy .env file based on environment
+SRC := $(shell os=$$(uname -s); \
+	if [[ "$$os" == "Linux" ]]; then \
+		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
+		touch ops/.env.prod; \
+		vim ops/.env.prod; \
+		cp ./ops/.env.prod ./src/.env; \
+		cp ./docker-prod.yml ./src/docker-compose.yml; \
+	elif [[ "$$os" == "Darwin" ]]; then \
+		cp ./ops/.env.dev ./src/.env; \
+		cp ./docker-dev.yml ./src/docker-compose.yml; \
+	else \
+		exit 1; \
+	fi)
+
 # load .env file
 include ./src/.env
 
 repo:
-	echo "\033[31mEnter app code folder name:\033[0m ";
+	echo "\033[31mEnter directory name:\033[0m ";
 	read -r code; \
 	cd ~/dev/web/dclm/$$code; \
 	git init && git add . && git commit -m "DCLM Academy"; \
@@ -56,54 +71,33 @@ git:
 	fi
 
 build:
-	@if docker images | grep -q opeoniye/dclm-academy; then \
-		echo "Removing \033[31mopeoniye/dclm-academy\033[0m image"; \
+	@if docker images | grep -q $(DIN); then \
+		echo "\033[31mRemoving all dangling images\033[0m image"; \
 		echo y | docker image prune --filter="dangling=true"; \
-		docker image rm opeoniye/dclm-academy; \
-		echo "Building \033[31mopeoniye/dclm-academy\033[0m image"; \
-		docker build -t opeoniye/dclm-academy:latest .; \
-		docker images | grep opeoniye/dclm-academy; \
+		echo "Building \033[31m$(DIN):$(DIV)\033[0m image"; \
+		docker build -t $(DIN):$(DIV) .; \
+		docker images | grep $(DIN); \
 	else \
-		echo "Building \033[31mopeoniye/dclm-academy\033[0m image"; \
-		docker build -t opeoniye/dclm-academy:latest .; \
-		docker images | grep opeoniye/dclm-academy; \
+		echo "Building \033[31m$(DIN):$(DIV)\033[0m image"; \
+		docker build -t $(DIN):$(DIV) .; \
+		docker images | grep $(DIN); \
 	fi
 
 push:
-	cat ops/docker/pin | docker login -u opeoniye --password-stdin
-	docker push opeoniye/dclm-academy:latest
-
-dev:
-	cp ./ops/.env.dev ./src/.env
-	cp ./docker-dev.yml ./src/docker-compose.yml
-	docker pull $(DIN):$(DIV)
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d
-
-prod:
-	@if [ -d .git ]; then \
-		echo "\033[31mDirectory exists, starting container...\033[0m"; \
-		touch ops/.env.prod; \
-		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
-		vim ops/.env.prod; \
-		cp ./ops/.env.prod ./src/.env; \
-		cp ./docker-prod.yml ./src/docker-compose.yml; \
-		docker pull $(DIN):$(DIV); \
-		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
-	else \
-		echo "\033[31mDirectory not found, setting up project...\033[0m"; \
-		git clone https://github.com/dclmict/dclm-academy.git .; \
-		sudo chown -R ubuntu:ubuntu .; \
-		touch ops/.env.prod; \
-		echo "\033[32mPaste .env content and save with :wq\033[0m"; \
-		vim ops/.env.prod; \
-		cp ./ops/.env.prod ./src/.env; \
-		cp ./docker-prod.yml ./src/docker-compose.yml; \
-		docker pull $(DIN):$(DIV); \
-		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
-	fi
+	echo ${DLP} | docker login -u opeoniye --password-stdin
+	docker push $(DIN):$(DIV)
 
 up:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env up --detach
+	@echo "\033[31mStarting container...\033[0m"; \
+	cp ops/app/config.php src/app/config.php; \
+	if [[ "$$(uname -s)" == "Linux" ]]; then \
+		docker pull $(DIN):$(DIV); \
+		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
+	elif [[ "$$(uname -s)" == "Darwin" ]]; then \
+		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
+	else \
+		exit 1; \
+	fi
 
 down:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env down

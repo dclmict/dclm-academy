@@ -4,7 +4,8 @@ setup
 README.md
 Makefile
 Dockerfile
-ops/docker/pin
+src/.env
+src/docker-compose.yml
 .git
 */k8s*
 */docker-*
@@ -14,7 +15,10 @@ ops/docker/pin
 */.idea*
 **/*.DS_Store
 **/*.gitignore
-src/.env
-src/docker-compose.yml
-src/vendor
-src/node_modules
+**/*.dockerignore
+
+ops
+!ops/docker
+src/app/vendor
+src/app/node_modules
+src/data
