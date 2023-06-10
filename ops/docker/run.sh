@@ -11,11 +11,11 @@
 # Based on https://gist.github.com/2206527
 
 # install dependencies
-echo "\033[31mInstalling app dependencies\033[0m" && \
-composer install --optimize-autoloader --no-dev && \
+echo "\033[31mInstalling app dependencies\033[0m"
+composer install --optimize-autoloader --no-dev
 
 # start supervisord
-echo "\033[31mStarting all services with supervisord\033[0m" && \
+echo "\033[31mStarting all services with supervisord\033[0m"
 /usr/bin/supervisord -c /etc/supervisord.conf
 
 # Moodle cron job

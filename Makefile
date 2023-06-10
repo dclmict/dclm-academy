@@ -71,6 +71,7 @@ git:
 	fi
 
 build:
+	make down
 	@if docker images | grep -q $(DIN); then \
 		echo "\033[31mRemoving all dangling images\033[0m image"; \
 		echo y | docker image prune --filter="dangling=true"; \
@@ -82,6 +83,7 @@ build:
 		docker build -t $(DIN):$(DIV) .; \
 		docker images | grep $(DIN); \
 	fi
+	make up
 
 push:
 	echo ${DLP} | docker login -u opeoniye --password-stdin
