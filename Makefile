@@ -92,18 +92,20 @@ up:
 	@echo -e "\033[31mStarting container...\033[0m"; \
 	cp ops/app/config.php src/app/config.php; \
 	if [[ "$$(uname -s)" == "Linux" ]]; then \
-		if [ -f ops/.env.prod ]; then \
+		if [ -f ops/.env.prod]; then \
 			echo -e "\033[32mPaste .env content and save with :wq\033[0m"; \
 			vim ops/.env.prod; \
 			cp ./ops/.env.prod ./src/.env; \
+			docker pull $(DIN):$(DIV); \
+			docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 		else \
 			touch ops/.env.prod; \
 			echo -e "\033[32mPaste .env content and save with :wq\033[0m"; \
 			vim ops/.env.prod; \
 			cp ./ops/.env.prod ./src/.env; \
+			docker pull $(DIN):$(DIV); \
+			docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 		fi \
-		docker pull $(DIN):$(DIV); \
-		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	elif [[ "$$(uname -s)" == "Darwin" ]]; then \
 		docker compose -f ./src/docker-compose.yml --env-file ./src/.env up -d; \
 	else \
@@ -133,3 +135,12 @@ ps:
 
 log:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env logs -f $(CN)
+
+run:
+	@echo "\033[31mEnter command to run inside container: \033[0m"; \
+	read -r cmd; \
+	docker compose -f ./src/docker-compose.yml exec $(CN) bash -c "$$cmd"
+
+update:
+	git restore .
+	git pull
