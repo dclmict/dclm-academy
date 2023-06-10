@@ -35,6 +35,5 @@ RUN  usermod -a -G www-data root && \
 # Add the cron job
 RUN crontab -l | { cat; echo "* * * * * /usr/local/bin/php /var/www/admin/cli/cron.php >/dev/null"; } | crontab -
 
-CMD cron
 EXPOSE 80
 ENTRYPOINT ["/var/docker/run.sh"]
