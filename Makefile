@@ -122,7 +122,7 @@ stop:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env stop
 
 restart:
-	docker compose -f ./src/docker-compose.yml --env-file ./src/.env.dev restart
+	docker compose -f ./src/docker-compose.yml --env-file ./src/.env restart
 
 destroy:
 	docker compose -f ./src/docker-compose.yml --env-file ./src/.env down --volumes
