@@ -7,13 +7,15 @@ services:
     working_dir: /var/www
     ports:
       - '1012:1012'
+      - '80:8080'
+      - '443:8443'
     networks:
       - dclm
     volumes:
-      - ./app:/var/www
-      - ./data:/var/data
-      - /etc/letsencrypt/live/dclm.org/fullchain.pem:/var/ssl/cert.pem
-      - /etc/letsencrypt/live/dclm.org/privkey.pem:/var/ssl/key.pem
+      - ./moodle_code:/bitnami/moodle
+      - ./moodle_data:/bitnami/moodledata
+      - /etc/letsencrypt/live/dclm.org/fullchain.pem:/certs/server.crt
+      - /etc/letsencrypt/live/dclm.org/privkey.pem:/certs/server.key
     restart: always
 
 networks:
