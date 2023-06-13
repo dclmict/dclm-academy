@@ -6,9 +6,7 @@ services:
     env_file: .env
     working_dir: /var/www
     ports:
-      - '1012:1012'
-      - '80:8080'
-      - '443:8443'
+      - 1012:8443
     networks:
       - dclm
     volumes:
