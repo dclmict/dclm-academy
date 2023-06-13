@@ -21,8 +21,12 @@ $CFG->dboptions = array (
 $CFG->wwwroot   = getenv('MOODLE_URL');
 $CFG->dataroot  = getenv('MOODLE_DATA_ROOT');
 $CFG->directorypermissions = getenv('MOODLE_DIR_PERM');
+$CFG->tempdir   = '/var/docker/moodle';
+$CFG->cachedir  = $CFG->tempdir.'/cache';
+$CFG->localcachedir = $CFG->tempdir.'/localcache';
 
 $CFG->admin     = 'admin';
+$CFG->lang      = getenv('MOODLE_LANG');
 if(filter_var(getenv('MOODLE_REVERSEPROXY'),FILTER_VALIDATE_BOOLEAN)){
   $CFG->reverseproxy = true;
 }
